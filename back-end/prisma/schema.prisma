@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model coasters {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  parkName  String      @db.VarChar(255)
+  image     String
+  rcdbId    String      @db.VarChar(10)
+  favorites favorites[]
+  ratings   ratings[]
+  riders    riders[]
+}
+
+model favorites {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  coasterId Int?
+  coasters  coasters? @relation(fields: [coasterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ratings {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  coasterId Int?
+  grade     Int
+  coasters  coasters? @relation(fields: [coasterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model riders {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  coasterId Int?
+  coasters  coasters? @relation(fields: [coasterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id          Int         @id @default(autoincrement())
+  email       String      @unique @db.VarChar(255)
+  displayName String      @db.VarChar(255)
+  accessToken String
+  photoURL    String
+  uid         String
+  favorites   favorites[]
+  ratings     ratings[]
+  riders      riders[]
+}

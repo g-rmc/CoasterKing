@@ -1,0 +1,12 @@
+import express from "express";
+
+import { coastersController } from "./coasters.controller";
+import { validateAuth } from "../../middleware";
+
+const router = express.Router();
+
+router
+    .use(validateAuth)
+    .get("/coasters", coastersController.getCoasters);
+
+export default router;
