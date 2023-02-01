@@ -11,6 +11,18 @@ async function getCoasters(_req: Request, res: Response) {
     }
 }
 
+async function getCoastersMe(_req: Request, res: Response) {
+    const userId = Number(res.locals.userId);
+
+    try {
+        const coastersArr = await coastersService.getCoastersListByUser(userId);
+        res.send(coastersArr);
+    } catch (error) {
+        res.sendStatus(400);
+    }
+}
+
 export const coastersController = {
     getCoasters,
+    getCoastersMe
 };
