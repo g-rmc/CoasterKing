@@ -86,3 +86,50 @@ describe("GET /coasters", () => {
         });
     });
 });
+
+describe("GET /coasters/me", () => {
+    it ("should respond with status 401 when no token is given", async () => {
+        const response = await server.get("/coasters/me");
+
+        expect(response.status).toBe(401);
+    });
+
+    it ("should respond with status 401 when invalid token", async () => {
+        const invalidToken = faker.random.alphaNumeric(5);
+
+        const response = await server.get("/coasters/me").set("Authorization", invalidToken);
+
+        expect(response.status).toBe(401);
+    });
+
+    it ("should respond with status 401 when no user found", async () => {
+        const accessToken = faker.random.alphaNumeric(30);
+
+        const response = await server.get("/coasters/me").set("Authorization", `Bearer ${accessToken}`);
+
+        expect(response.status).toBe(401);
+    });
+
+    describe("when token is valid", () => {
+        it("should respond with status 200 and empty array when no coasters found", async () => {
+            const createdUser = await createUser();
+
+            const response = await server.get("/coasters/me").set("Authorization", `Bearer ${createdUser.accessToken}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual([]);
+        });
+
+        it("should respond with status 200 and coasters array for user", async () => {
+            const createdUser = await createUser();
+            const coasterObj = await createCoaster();
+
+            await createRiders(1, createdUser.id, coasterObj.id);
+            
+            const response = await server.get("/coasters/me").set("Authorization", `Bearer ${createdUser.accessToken}`);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual([coasterObj]);
+        });
+    });
+});

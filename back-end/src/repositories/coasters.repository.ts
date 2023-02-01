@@ -21,6 +21,21 @@ async function getCoastersWithCount() {
     });
 }
 
+async function getCoastersByUserId(userId: number) {
+    return await prisma.riders.findMany({
+        where: {
+            userId
+        },
+        select: {
+            coasters: true
+        }, orderBy: {
+            coasters: {
+                parkName: "asc",
+            }
+        }
+    });
+}
+
 async function getCoasterById(coasterId: number) {
     return await prisma.coasters.findUnique({
         where: {
@@ -31,5 +46,6 @@ async function getCoasterById(coasterId: number) {
 
 export const coastersRepository = {
     getCoastersWithCount,
-    getCoasterById
+    getCoastersByUserId,
+    getCoasterById,
 };

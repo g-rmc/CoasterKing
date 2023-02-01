@@ -14,6 +14,14 @@ async function getCoastersListWithAvgCountInfo() {
     return fullCoasterInfo;
 }
 
+async function getCoastersListByUser(userId: number) {
+    const coastersList = await coastersRepository.getCoastersByUserId(userId);
+
+    const filteredCoastersList = coastersList.map(coaster => coaster.coasters);
+
+    return filteredCoastersList;
+}
+
 async function verifyExistingCoasterId(coasterId: number) {
     const coasterObj = await coastersRepository.getCoasterById(coasterId);
     if (!coasterObj) return false;
@@ -22,5 +30,6 @@ async function verifyExistingCoasterId(coasterId: number) {
 
 export const coastersService = {
     getCoastersListWithAvgCountInfo,
+    getCoastersListByUser,
     verifyExistingCoasterId
 };
