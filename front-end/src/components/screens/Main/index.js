@@ -17,7 +17,7 @@ export function Main() {
             try {
                 const { userCoastersCount } = (await coasterKingAPI.getMyCoastersCount(config)).data;
                 setCoasterCount(userCoastersCount);
-                setTimeout(() => setLoading(false), 500);
+                setTimeout(() => setLoading(false), 300);
             } catch (error) {
                 console.log(error.message);
                 setLoading(false);

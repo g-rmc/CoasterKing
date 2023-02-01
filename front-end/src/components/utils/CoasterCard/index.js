@@ -1,40 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
-import { AiFillStar, AiFillHeart, AiOutlineCheck } from "react-icons/ai";
+import React, { useContext } from "react";
+import { useLocation } from "react-router-dom";
 
-import { UserContext, ThemeContext, QueryContext } from "../../../contexts";
-import { CoasterInfoContainer, Container, StyledCheckBox, StyledEvaluation } from "./style";
+import { ThemeContext } from "../../../contexts";
+import { CoasterPageContent } from "./CoasterPageContent";
+import { MyListPageContent } from "./MyListPageContent";
+import { Container } from "./style";
 
 export function CoasterCard({coaster}) {
-    const { setLoading, config } = useContext(UserContext);
+    const location = useLocation();
     const { themeCodeObj } = useContext(ThemeContext);
-    const { coasterKingAPI } = useContext(QueryContext);
-    const [ ridedCoaster, setRidedCoaster ] = useState(false);
-
-    useEffect(() => {
-        async function loadAPI() {
-            try {
-                const { rideStatus } = (await coasterKingAPI.getRideStatusByCoaster(config, coaster.id)).data;
-                setRidedCoaster(rideStatus);
-            } catch (error) {
-                console.log(error.message);
-            }
-        }
-        loadAPI();
-    });
-
-    async function handleChangeStatus() {
-        setLoading(true);
-        try {
-            if(ridedCoaster) {
-                await coasterKingAPI.deleteRideStatusByCoaster(config, coaster.id);
-            } else {
-                await coasterKingAPI.postRideStatusByCoaster(config, coaster.id);
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-        setLoading(false);
-    }
 
     function goToRcdb() {
         window.open(`https://rcdb.com/${coaster.rcdbId}.htm`);
@@ -43,28 +17,12 @@ export function CoasterCard({coaster}) {
     return (
         <Container themeCode={themeCodeObj}>
             <img src={coaster.image} alt="coaster" onClick={goToRcdb}/>
-            <CoasterInfoContainer themeCode={themeCodeObj}>
-                <h1>{coaster.name}</h1>
-                <div>
-                    <span>
-                        <h2>{coaster.parkName}</h2>
-                        <h3><b>{coaster._count.riders} </b> já andaram</h3>  
-                    </span>
-                    <span>
-                        <StyledEvaluation themeCode={themeCodeObj} icon={"star"}>
-                            <AiFillStar />
-                            <h1>{coaster._avg.grade/10}</h1>
-                        </StyledEvaluation>
-                        <StyledEvaluation themeCode={themeCodeObj} icon={"heart"}>
-                            <AiFillHeart />
-                            <h1>{coaster._count.favorites}</h1>
-                        </StyledEvaluation>
-                    </span>
-                </div>
-            </CoasterInfoContainer>
-            <StyledCheckBox themeCode={themeCodeObj} onClick={handleChangeStatus}>
-                { ridedCoaster? <AiOutlineCheck /> : <></>}
-            </StyledCheckBox>
+            {
+                location.pathname === "/coasters"?
+                <CoasterPageContent coaster={coaster}/>
+                :
+                <MyListPageContent coaster={coaster}/>
+            }
         </Container>
     )
 }
