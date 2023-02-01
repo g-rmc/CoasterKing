@@ -2,8 +2,9 @@ import express from "express";
 import cors from "cors";
 
 import userRouter from "./modules/users/users.router";
-import coasterRouter from "./modules/coasters/coasters.routers";
-import ridersRouter from "./modules/riders/riders.routers";
+import coasterRouter from "./modules/coasters/coasters.router";
+import ridersRouter from "./modules/riders/riders.router";
+import ratingsRouter from "./modules/ratings/ratings.router";
 
 const app = express();
 app
@@ -12,6 +13,7 @@ app
     .get("/status", (_req, res) => res.send("Ok"))
     .use("/users", userRouter)
     .use("/coasters", coasterRouter)
-    .use("/riders", ridersRouter);
+    .use("/riders", ridersRouter)
+    .use("/ratings", ratingsRouter);
 
 export default app;
