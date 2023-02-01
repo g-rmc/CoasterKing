@@ -16,7 +16,7 @@ export function Coasters() {
             try {
                 const coasterList = (await coasterKingAPI.getCoasters(config)).data;
                 setCoasters(coasterList);
-                setTimeout(() => setLoading(false), 500);
+                setLoading(false);
             } catch (error) {
                 console.log(error.message);
                 setLoading(false);
