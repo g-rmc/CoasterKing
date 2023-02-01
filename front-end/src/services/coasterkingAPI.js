@@ -17,7 +17,7 @@ async function getCoasters(config) {
     return promise;
 }
 
-async function getUsersCoasters(config) {
+async function getUserCoasters(config) {
     const promise = axios.get(`${baseURL}/coasters/me`, config);
     return promise;
 }
@@ -46,7 +46,7 @@ export const coasterKingAPI = {
     createUpdateUser, 
     getUserByToken, 
     getCoasters, 
-    getUsersCoasters,
+    getUserCoasters,
     getMyCoastersCount,
     getRideStatusByCoaster,
     postRideStatusByCoaster,

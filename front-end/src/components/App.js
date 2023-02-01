@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { GlobalStyle, ThemeStyle } from '../styles';
-import { UserContextProvider, ThemeContextProvider, QueryContextProvider, CoastersContextProvider } from '../contexts';
+import { UserContextProvider, ThemeContextProvider, QueryContextProvider } from '../contexts';
 import { PrivateRoutes } from './routes';
-import { Login, Main, Coasters, Mylist } from './screens';
+import { Login, Main, CoastersLists } from './screens';
 import { SwitchColorModeButton, Loading } from './utils';
 
 
@@ -28,25 +28,23 @@ export default function App() {
       <ThemeContextProvider>
         <UserContextProvider>
           <QueryContextProvider>
-            <CoastersContextProvider>
             
-              <Container>
-                <SwitchColorModeButton />
-                <Loading />
-                <BrowserRouter>
-                  <Routes>
+            <Container>
+              <SwitchColorModeButton />
+              <Loading />
+              <BrowserRouter>
+                <Routes>
 
-                    <Route path='/' element={<Login />}/>
-                    <Route path='/main' element={<PrivateRoutes><Main /></PrivateRoutes>}/>
-                    <Route path='/coasters' element={<PrivateRoutes><Coasters /></PrivateRoutes>}/>
-                    <Route path='/mylist' element={<PrivateRoutes><Mylist /></PrivateRoutes>}/>
-                    <Route path="*" element={<Navigate to="/" />} />
+                  <Route path='/' element={<Login />}/>
+                  <Route path='/main' element={<PrivateRoutes><Main /></PrivateRoutes>}/>
+                  <Route path='/coasters' element={<PrivateRoutes><CoastersLists /></PrivateRoutes>}/>
+                  <Route path='/mylist' element={<PrivateRoutes><CoastersLists /></PrivateRoutes>}/>
+                  <Route path="*" element={<Navigate to="/" />} />
 
-                  </Routes>
-                </BrowserRouter>
-              </Container>
+                </Routes>
+              </BrowserRouter>
+            </Container>
               
-            </CoastersContextProvider>
           </QueryContextProvider>
         </UserContextProvider>  
       </ThemeContextProvider>
