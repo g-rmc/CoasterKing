@@ -8,6 +8,7 @@ const router = express.Router();
 
 router
     .all("/*", validateAuth)
+    .get("/:coasterId", validateSchema(coasterIdSchema, "params"), ratingsController.getUserRating)
     .post("/:coasterId", validateSchema(coasterIdSchema, "params"), validateSchema(gradeSchema, "body"), ratingsController.postUserRating);
 
 export default router;

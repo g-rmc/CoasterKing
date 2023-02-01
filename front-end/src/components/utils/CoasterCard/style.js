@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Rating from '@mui/material/Rating';
 
 const Container = styled.div`
     min-height: 100px;
@@ -34,15 +35,15 @@ const CoasterInfoContainer = styled.div`
     padding: 5px 15px;
     font-family: 'Raleway', sans-serif;
 
-    div {
+    & > div {
         justify-content: space-between;
-    }
 
-    span {
+        & > span {
         height: 40px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        }
     }
 
     h1 {
@@ -109,6 +110,22 @@ const StyledCheckBox = styled.div`
     }
 `
 
+function StyledStarRating ({grade, handleEvent}) {
+    return (
+        <Rating 
+        name="customized-color"
+        value={grade}
+        onChange={handleEvent}
+        sx={{
+            "& .MuiRating-icon" : {
+                color: "#FAAF00",
+                fontSize: "20px"
+            }
+        }}
+        />
+    )
+}
+
 export {
-    Container, CoasterInfoContainer, StyledEvaluation, StyledCheckBox
+    Container, CoasterInfoContainer, StyledEvaluation, StyledCheckBox, StyledStarRating
 }
