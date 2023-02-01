@@ -25,10 +25,11 @@ export function CoasterCard({coaster}) {
     async function handleChangeStatus() {
         setLoading(true);
         try {
-            if(!ridedCoaster) {
-                return await coasterKingAPI.postRideStatusByCoaster(config, coaster.id);
+            if(ridedCoaster) {
+                await coasterKingAPI.deleteRideStatusByCoaster(config, coaster.id);
+            } else {
+                await coasterKingAPI.postRideStatusByCoaster(config, coaster.id);
             }
-            return await coasterKingAPI.deleteRideStatusByCoaster(config, coaster.id);
         } catch (error) {
             console.log(error.message);
         }
