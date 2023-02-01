@@ -14,3 +14,13 @@ export async function createRatings(number = 1, userId: number, coasterId: numbe
         number--;
     }
 }
+
+export async function createOneRatingWithGrade(grade: number, userId: number, coasterId: number) {
+    await prisma.ratings.create({
+        data: {
+            userId,
+            coasterId,
+            grade
+        }
+    });
+}

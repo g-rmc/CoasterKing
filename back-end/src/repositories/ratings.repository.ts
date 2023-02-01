@@ -12,6 +12,39 @@ async function getAvgGradeByCoasterId(coasterId: number) {
     });
 }
 
+async function getRatingByCoasterAndUserId(coasterId: number, userId: number) {
+    return await prisma.ratings.findFirst({
+        where: { 
+            coasterId,
+            userId
+        },
+    });
+}
+
+async function createUserRating(coasterId: number, userId: number, grade: number) {
+    return await prisma.ratings.create({
+        data: {
+            userId,
+            coasterId,
+            grade,
+        }
+    });
+}
+
+async function updateUserRatingById(id: number, grade: number) {
+    return await prisma.ratings.update({
+        where: {
+            id
+        },
+        data: {
+            grade
+        }
+    });
+}
+
 export const ratingsRepository = {
     getAvgGradeByCoasterId,
+    getRatingByCoasterAndUserId,
+    createUserRating,
+    updateUserRatingById,
 };
