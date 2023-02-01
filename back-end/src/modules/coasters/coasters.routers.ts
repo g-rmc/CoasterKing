@@ -6,7 +6,7 @@ import { validateAuth } from "../../middleware";
 const router = express.Router();
 
 router
-    .use(validateAuth)
-    .get("/coasters", coastersController.getCoasters);
+    .all("/", validateAuth)
+    .get("/", coastersController.getCoasters);
 
 export default router;

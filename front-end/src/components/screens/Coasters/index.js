@@ -23,7 +23,7 @@ export function Coasters() {
             }
         }
         loadAPI();
-    });
+    }, []);
     
     return (
         <Container themeCode={themeCodeObj}>

@@ -7,10 +7,10 @@ import { coasterIdSchema } from "../../schemas";
 const router = express.Router();
 
 router
-    .use(validateAuth)
-    .get("/riders/me", ridersController.getRidersMe)
-    .get("/riders/:coasterId", validateSchema(coasterIdSchema, "params"), ridersController.getRider)
-    .post("/riders/:coasterId", validateSchema(coasterIdSchema, "params"), ridersController.postRider)
-    .delete("/riders/:coasterId", validateSchema(coasterIdSchema, "params"), ridersController.deleteRider);
+    .all("/*", validateAuth)
+    .get("/me", ridersController.getRidersMe)
+    .get("/:coasterId", validateSchema(coasterIdSchema, "params"), ridersController.getRider)
+    .post("/:coasterId", validateSchema(coasterIdSchema, "params"), ridersController.postRider)
+    .delete("/:coasterId", validateSchema(coasterIdSchema, "params"), ridersController.deleteRider);
 
 export default router;

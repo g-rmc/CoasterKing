@@ -25,7 +25,7 @@ const Container = styled.div`
         border-radius: 50%;
         border: 1px solid black;
         cursor: pointer;
-        hover {
+        :hover {
             filter: brightness(0.6)
         }
     };

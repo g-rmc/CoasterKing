@@ -12,12 +12,6 @@ const Container = styled.div`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     ${props => `background: var(${props.themeCode.box});`}
 
-    input {
-        height: 30px;
-        width: 30px;
-        cursor: pointer;
-    }
-
     img {
         height: 80px;
         width: 80px;
@@ -96,6 +90,25 @@ const StyledEvaluation = styled.div`
     }
 `
 
+const StyledCheckBox = styled.div`
+    height: 30px;
+    min-width: 30px;
+    width: 30px;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    ${props => `color: var(${props.themeCode.headerBackground});`}
+
+    ${props => `background: var(${props.themeCode.background});`}
+    border: 1px solid ${props => `var(${props.themeCode.title})`};
+    border-radius: 5px;
+
+    cursor: pointer;
+    :hover {
+        filter: brightness(0.6);
+    }
+`
+
 export {
-    Container, CoasterInfoContainer, StyledEvaluation
+    Container, CoasterInfoContainer, StyledEvaluation, StyledCheckBox
 }

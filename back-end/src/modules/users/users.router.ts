@@ -7,7 +7,7 @@ import { newUserSchema } from "../../schemas/index";
 const router = express.Router();
 
 router
-    .get("/users", validateAuth, usersController.getUser)
-    .post("/users", validateSchema(newUserSchema, "body"), usersController.postUser);
+    .get("/", validateAuth, usersController.getUser)
+    .post("/", validateSchema(newUserSchema, "body"), usersController.postUser);
 
 export default router;
