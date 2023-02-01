@@ -22,4 +22,27 @@ async function getMyCoastersCount(config) {
     return promise;
 }
 
-export const coasterKingAPI = { createUpdateUser, getUserByToken, getCoasters, getMyCoastersCount }
+async function getRideStatusByCoaster(config, coasterId) {
+    const promise = axios.get(`${baseURL}/riders/${coasterId}`, config);
+    return promise;
+}
+
+async function postRideStatusByCoaster(config, coasterId) {
+    const promise = axios.post(`${baseURL}/riders/${coasterId}`, {},  config);
+    return promise;
+}
+
+async function deleteRideStatusByCoaster(config, coasterId) {
+    const promise = axios.delete(`${baseURL}/riders/${coasterId}`, config);
+    return promise;
+}
+
+export const coasterKingAPI = { 
+    createUpdateUser, 
+    getUserByToken, 
+    getCoasters, 
+    getMyCoastersCount,
+    getRideStatusByCoaster,
+    postRideStatusByCoaster,
+    deleteRideStatusByCoaster
+}

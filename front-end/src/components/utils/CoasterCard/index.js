@@ -1,11 +1,40 @@
-import React, { useContext } from "react";
-import { AiFillStar, AiFillHeart } from "react-icons/ai";
+import React, { useContext, useState, useEffect } from "react";
+import { AiFillStar, AiFillHeart, AiOutlineCheck } from "react-icons/ai";
 
-import { ThemeContext } from "../../../contexts";
-import { CoasterInfoContainer, Container, StyledEvaluation } from "./style";
+import { UserContext, ThemeContext, QueryContext } from "../../../contexts";
+import { CoasterInfoContainer, Container, StyledCheckBox, StyledEvaluation } from "./style";
 
 export function CoasterCard({coaster}) {
+    const { setLoading, config } = useContext(UserContext);
     const { themeCodeObj } = useContext(ThemeContext);
+    const { coasterKingAPI } = useContext(QueryContext);
+    const [ ridedCoaster, setRidedCoaster ] = useState(false);
+
+    useEffect(() => {
+        async function loadAPI() {
+            try {
+                const { rideStatus } = (await coasterKingAPI.getRideStatusByCoaster(config, coaster.id)).data;
+                setRidedCoaster(rideStatus);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        loadAPI();
+    });
+
+    async function handleChangeStatus() {
+        setLoading(true);
+        try {
+            if(ridedCoaster) {
+                await coasterKingAPI.deleteRideStatusByCoaster(config, coaster.id);
+            } else {
+                await coasterKingAPI.postRideStatusByCoaster(config, coaster.id);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+        setLoading(false);
+    }
 
     function goToRcdb() {
         window.open(`https://rcdb.com/${coaster.rcdbId}.htm`);
@@ -33,7 +62,9 @@ export function CoasterCard({coaster}) {
                     </span>
                 </div>
             </CoasterInfoContainer>
-            <input type='checkbox' />
+            <StyledCheckBox themeCode={themeCodeObj} onClick={handleChangeStatus}>
+                { ridedCoaster? <AiOutlineCheck /> : <></>}
+            </StyledCheckBox>
         </Container>
     )
 }

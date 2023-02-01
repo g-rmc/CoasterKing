@@ -10,8 +10,8 @@ app
     .use(cors())
     .use(express.json())
     .get("/status", (_req, res) => res.send("Ok"))
-    .use(userRouter)
-    .use(coasterRouter)
-    .use(ridersRouter);
+    .use("/users", userRouter)
+    .use("/coasters", coasterRouter)
+    .use("/riders", ridersRouter);
 
 export default app;
