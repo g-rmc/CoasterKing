@@ -28,7 +28,7 @@ async function getRideStatusByCoaster(config, coasterId) {
 }
 
 async function postRideStatusByCoaster(config, coasterId) {
-    const promise = axios.post(`${baseURL}/riders/${coasterId}`, {},  config);
+    const promise = axios.post(`${baseURL}/riders/${coasterId}`, {}, config);
     return promise;
 }
 
