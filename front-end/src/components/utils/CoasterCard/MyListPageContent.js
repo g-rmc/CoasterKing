@@ -1,11 +1,43 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
-import { ThemeContext } from "../../../contexts";
-import { CoasterInfoContainer, StyledCheckBox } from "./style";
+
+import { QueryContext, ThemeContext, UserContext } from "../../../contexts";
+import { CoasterInfoContainer, StyledCheckBox, StyledStarRating } from "./style";
 
 
 export function MyListPageContent({coaster}) {
+    const { config, loading, setLoading } = useContext(UserContext);
     const { themeCodeObj } = useContext(ThemeContext);
+    const { coasterKingAPI } = useContext(QueryContext);
+    const [ grade, setGrade ] = useState(null);
+
+    useEffect(() => {
+        async function loadAPI() {
+            try {
+                const { grade } = (await coasterKingAPI.getRatingByCoaster(config, coaster.id)).data;
+                setGrade(grade/10);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        loadAPI();
+    }, [loading, coasterKingAPI, coaster.id, config]);
+
+    async function handleEvent(_event, newGrade) {
+        setLoading(true);
+        try {
+            if(!newGrade) {
+                await coasterKingAPI.deleteRatingByCoaster(config, coaster.id);
+            };
+            if(newGrade) {
+                await coasterKingAPI.postRatingByCoaster(config, coaster.id, newGrade);
+            }
+            setGrade(newGrade);
+        } catch (error) {
+            console.log(error.message);
+        }
+        setLoading(false);
+    };
 
     return (
         <>
@@ -14,6 +46,7 @@ export function MyListPageContent({coaster}) {
                 <div>
                     <span>
                         <h2>{coaster.parkName}</h2>
+                        <StyledStarRating grade={grade} handleEvent={handleEvent} />
                     </span>
                     <span>
 

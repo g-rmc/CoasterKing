@@ -42,6 +42,21 @@ async function deleteRideStatusByCoaster(config, coasterId) {
     return promise;
 }
 
+async function getRatingByCoaster(config, coasterId) {
+    const promise = axios.get(`${baseURL}/ratings/${coasterId}`, config);
+    return promise;
+}
+
+async function postRatingByCoaster(config, coasterId, grade) {
+    const promise = axios.post(`${baseURL}/ratings/${coasterId}`, { grade: grade*10 }, config);
+    return promise;
+}
+
+async function deleteRatingByCoaster(config, coasterId) {
+    const promise = axios.delete(`${baseURL}/ratings/${coasterId}`, config);
+    return promise;
+}
+
 export const coasterKingAPI = { 
     createUpdateUser, 
     getUserByToken, 
@@ -50,5 +65,8 @@ export const coasterKingAPI = {
     getMyCoastersCount,
     getRideStatusByCoaster,
     postRideStatusByCoaster,
-    deleteRideStatusByCoaster
+    deleteRideStatusByCoaster,
+    getRatingByCoaster,
+    postRatingByCoaster,
+    deleteRatingByCoaster,
 }
