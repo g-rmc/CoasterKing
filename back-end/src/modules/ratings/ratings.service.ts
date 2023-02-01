@@ -18,7 +18,14 @@ async function createOrUpdateRatings(userId: number, coasterId: number, grade: n
     return await ratingsRepository.createUserRating(coasterId, userId, grade);
 }
 
+async function deleteRating(userId: number, coasterId: number) {
+    if (!await coastersService.verifyExistingCoasterId(coasterId)) throw new Error("coasterId not found");
+    
+    await ratingsRepository.deleteRatingByCoasterAndUserId(coasterId, userId);
+}
+
 export const ratingsService = {
     getRating,
-    createOrUpdateRatings
+    createOrUpdateRatings,
+    deleteRating
 };

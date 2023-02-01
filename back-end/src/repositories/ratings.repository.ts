@@ -42,9 +42,19 @@ async function updateUserRatingById(id: number, grade: number) {
     });
 }
 
+async function deleteRatingByCoasterAndUserId(coasterId: number, userId: number) {
+    return await prisma.ratings.deleteMany({
+        where: { 
+            coasterId,
+            userId
+        },
+    });
+}
+
 export const ratingsRepository = {
     getAvgGradeByCoasterId,
     getRatingByCoasterAndUserId,
     createUserRating,
     updateUserRatingById,
+    deleteRatingByCoasterAndUserId
 };

@@ -30,7 +30,21 @@ async function postUserRating(req: Request, res: Response) {
     }
 }
 
+async function deleteUserRating(req: Request, res: Response) {
+    const userId = Number(res.locals.userId);
+    const coasterId = Number(req.params.coasterId);
+
+    try {
+        await ratingsService.deleteRating(userId, coasterId);
+        res.sendStatus(200);
+    } catch (error) {
+        if(error.message === "coasterId not found") return res.status(404).send(error.message);
+        res.sendStatus(400);
+    }
+}
+
 export const ratingsController = {
     getUserRating,
-    postUserRating
+    postUserRating,
+    deleteUserRating
 };
