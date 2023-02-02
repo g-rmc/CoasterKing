@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { ThemeContext, UserContext, QueryContext } from "../../../contexts";
 
-import { Container, UserContainer } from "./style";
+import { Container, RankingContainer, UserContainer } from "./style";
 
 export function Ranking() {
     const { themeCodeObj } = useContext(ThemeContext);
-    const { setLoading, config } = useContext(UserContext);
+    const { user, setLoading, config } = useContext(UserContext);
     const { coasterKingAPI } = useContext(QueryContext);
     const [ ranking, setRanking ] = useState([]);
+
+    const userPosition = ranking.find(rankedUser => rankedUser.userId === user.id);
 
     useEffect(() => {
         async function loadAPI() {
@@ -42,12 +44,15 @@ export function Ranking() {
 
     return (
         <Container themeCode={themeCodeObj}>
-            {
-                ranking.length > 0?
-                ranking.map((user, index) => <RankingPosition key={index} user={user}/>)
-                :
-                <>Carregando Ranking</>
-            }
+            <h1>Você está em <b>{userPosition?.ranking}º</b> lugar no Ranking</h1>
+            <RankingContainer themeCode={themeCodeObj}>
+                {
+                    ranking.length > 0?
+                    ranking.map((user, index) => <RankingPosition key={index} user={user}/>)
+                    :
+                    <>Carregando Ranking</>
+                }
+            </RankingContainer>
         </Container>
     )
 }
