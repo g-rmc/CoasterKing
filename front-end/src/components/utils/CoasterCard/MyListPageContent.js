@@ -17,7 +17,9 @@ export function MyListPageContent({coaster}) {
         async function loadAPI() {
             try {
                 const { grade } = (await coasterKingAPI.getRatingByCoaster(config, coaster.id)).data;
+                const { favoriteStatus } = (await coasterKingAPI.getFavoriteStatusByCoaster(config, coaster.id)).data;
                 setGrade(grade);
+                setFavorite(favoriteStatus);
             } catch (error) {
                 console.log(error.message);
             }
@@ -42,7 +44,17 @@ export function MyListPageContent({coaster}) {
     };
 
     async function handleChangeFavoriteStatus() {
-        setFavorite(!favorite);
+        setLoading(true);
+        try {
+            if(favorite) {
+                await coasterKingAPI.deleteFavoriteStatusByCoaster(config, coaster.id);
+            } else {
+                await coasterKingAPI.postFavoriteStatusByCoaster(config, coaster.id);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+        setLoading(false);
     }
 
     return (
