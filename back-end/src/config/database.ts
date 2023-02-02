@@ -1,7 +1,8 @@
 /* eslint-disable boundaries/no-private */
 import { PrismaClient } from "@prisma/client";
 
-export let prisma: PrismaClient;
+const prisma = new PrismaClient();
+
 export function connectDb() {
-    return prisma = new PrismaClient();
+    return prisma;
 }
