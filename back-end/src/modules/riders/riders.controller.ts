@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { ridersService } from "./riders.service";
 
 async function getRidersMe(_req: Request, res: Response) {
-    const userId = Number(res.locals.userId);
+    const userId = +res.locals.userId;
 
     try {
         const userCount = await ridersService.getCoastersNumberByUser(userId);
@@ -14,8 +14,8 @@ async function getRidersMe(_req: Request, res: Response) {
 }
 
 async function getRider(req: Request, res: Response) {
-    const userId = Number(res.locals.userId);
-    const coasterId = Number(req.params.coasterId);
+    const userId = +res.locals.userId;
+    const coasterId = +req.params.coasterId;
 
     try {
         const rided = await ridersService.getRidedOrNot(userId, coasterId);
@@ -27,8 +27,8 @@ async function getRider(req: Request, res: Response) {
 }
 
 async function postRider(req: Request, res: Response) {
-    const userId = Number(res.locals.userId);
-    const coasterId = Number(req.params.coasterId);
+    const userId = +res.locals.userId;
+    const coasterId = +req.params.coasterId;
 
     try {
         await ridersService.postRiderEntry(userId, coasterId);
@@ -40,8 +40,8 @@ async function postRider(req: Request, res: Response) {
 }
 
 async function deleteRider(req: Request, res: Response) {
-    const userId = Number(res.locals.userId);
-    const coasterId = Number(req.params.coasterId);
+    const userId = +res.locals.userId;
+    const coasterId = +req.params.coasterId;
 
     try {
         await ridersService.deleteRiderEntry(userId, coasterId);

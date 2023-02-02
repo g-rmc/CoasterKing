@@ -4,21 +4,24 @@ import { connectDb } from "../config/database";
 const prisma = connectDb();
 
 async function getAvgGradeByCoasterId(coasterId: number) {
-    return await prisma.ratings.aggregate({
+    const { _avg } = await prisma.ratings.aggregate({
         where: { coasterId },
         _avg: {
             grade: true
         }
     });
+    return { _avg: { grade: _avg.grade/10 } };
 }
 
 async function getRatingByCoasterAndUserId(coasterId: number, userId: number) {
-    return await prisma.ratings.findFirst({
+    const rating = await prisma.ratings.findFirst({
         where: { 
             coasterId,
             userId
         },
     });
+    if (!rating) return null;
+    return { ...rating, grade: rating.grade/10 };
 }
 
 async function createUserRating(coasterId: number, userId: number, grade: number) {
@@ -26,7 +29,7 @@ async function createUserRating(coasterId: number, userId: number, grade: number
         data: {
             userId,
             coasterId,
-            grade,
+            grade: grade*10,
         }
     });
 }
@@ -37,7 +40,7 @@ async function updateUserRatingById(id: number, grade: number) {
             id
         },
         data: {
-            grade
+            grade: grade*10,
         }
     });
 }

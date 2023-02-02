@@ -50,7 +50,7 @@ describe("GET /riders/me", () => {
             const createdUser = await createUser();
             const coasterObj = await createCoaster();
 
-            const randomNum = Number(faker.random.numeric(2));
+            const randomNum = +faker.random.numeric(2);
             await createRiders(randomNum, createdUser.id, coasterObj.id);
 
             const userCoastersCount = await prisma.riders.count({

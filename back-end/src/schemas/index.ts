@@ -15,5 +15,5 @@ export const coasterIdSchema = Joi.object<{coasterId: number}>({
 });
 
 export const gradeSchema = Joi.object<{grade: number}>({
-    grade: Joi.number().min(0).max(50).required(),
+    grade: Joi.number().min(0).max(5).integer().required(),
 });

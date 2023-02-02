@@ -51,7 +51,7 @@ describe("GET /coasters", () => {
             const createdUser = await createUser();
             const coasterObj = await createCoaster();
 
-            const randomNum = Number(faker.random.numeric(1));
+            const randomNum = +faker.random.numeric(1);
             await createRiders(randomNum, createdUser.id, coasterObj.id);
             await createFavorites(randomNum, createdUser.id, coasterObj.id);
             await createRatings(randomNum, createdUser.id, coasterObj.id);
@@ -76,7 +76,7 @@ describe("GET /coasters", () => {
                         grade: true
                     }
                 });
-                fullCoasterInfo.push({ ...coastersList[i], _avg: { grade: Math.round(coasterRatings._avg.grade) } });
+                fullCoasterInfo.push({ ...coastersList[i], _avg: { grade: Math.round(coasterRatings._avg.grade/10) } });
             }
             
             const response = await server.get("/coasters").set("Authorization", `Bearer ${createdUser.accessToken}`);

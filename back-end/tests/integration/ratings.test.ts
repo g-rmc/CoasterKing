@@ -71,16 +71,10 @@ describe("GET /ratings/:coasterId", () => {
                 const coasterObj = await createCoaster();
                 const grade = faker.datatype.number({
                     "min": 0,
-                    "max": 50
+                    "max": 5
                 });
 
-                await prisma.ratings.create({
-                    data: {
-                        userId: createdUser.id,
-                        coasterId: coasterObj.id,
-                        grade
-                    }
-                });
+                await createOneRatingWithGrade(grade*10, createdUser.id, coasterObj.id);
     
                 const response = await server.get(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
     
@@ -128,7 +122,7 @@ describe("POST /ratings/:coasterId", () => {
             const createdUser = await createUser();
             const coasterObj = await createCoaster();
 
-            const response = await server.post(`/ratings/${coasterObj.id+1}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade: 30 });
+            const response = await server.post(`/ratings/${coasterObj.id+1}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade: 3 });
 
             expect(response.status).toBe(404);
         });
@@ -154,12 +148,12 @@ describe("POST /ratings/:coasterId", () => {
                 expect(response.status).toBe(400);
             });
 
-            it("should respond with status 400 when grade is not between 0 and 50", async () => {
+            it("should respond with status 400 when grade is not an integer between 0 and 5", async () => {
                 const createdUser = await createUser();
                 const coasterObj = await createCoaster();
     
-                const responseLess = await server.post(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade: -1 });
-                const responseMore = await server.post(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade: 51 });
+                const responseLess = await server.post(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade: -0.1 });
+                const responseMore = await server.post(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade: 5.1 });
     
                 expect(responseLess.status).toBe(400);
                 expect(responseMore.status).toBe(400);
@@ -171,17 +165,18 @@ describe("POST /ratings/:coasterId", () => {
                     const coasterObj = await createCoaster();
                     const grade = faker.datatype.number({
                         "min": 0,
-                        "max": 50
+                        "max": 5,
                     });
         
                     const response = await server.post(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade });
     
-                    const verifyEntry = await prisma.ratings.findFirst({
+                    const rawEntry = await prisma.ratings.findFirst({
                         where: {
                             userId: createdUser.id,
                             coasterId: coasterObj.id,
                         }
                     });
+                    const verifyEntry = { ...rawEntry, grade: rawEntry.grade/10 };
         
                     expect(response.status).toBe(200);
                     expect(verifyEntry).toMatchObject({ userId: createdUser.id, coasterId: coasterObj.id, grade });
@@ -192,93 +187,89 @@ describe("POST /ratings/:coasterId", () => {
                     const coasterObj = await createCoaster();
                     const grade = faker.datatype.number({
                         "min": 0,
-                        "max": 50
+                        "max": 5,
                     });
 
-                    await createOneRatingWithGrade(grade, createdUser.id, coasterObj.id);
+                    await createOneRatingWithGrade(grade*10, createdUser.id, coasterObj.id);
         
                     const response = await server.post(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`).send({ grade });
     
-                    const verifyEntry = await prisma.ratings.findFirst({
+                    const rawEntry = await prisma.ratings.findFirst({
                         where: {
                             userId: createdUser.id,
                             coasterId: coasterObj.id,
                         }
                     });
+
+                    const verifyEntry = { ...rawEntry, grade: rawEntry.grade/10 };
         
                     expect(response.status).toBe(200);
-                    expect(verifyEntry).toMatchObject({ userId: createdUser.id, coasterId: coasterObj.id, grade });
+                    expect(verifyEntry).toMatchObject({ userId: createdUser.id, coasterId: coasterObj.id, grade: grade });
                 });
             });
         });
     });
+});
 
-    describe("DELETE /ratings/:coasterId", () => {
-        it ("should respond with status 401 when no token is given", async () => {
-            const response = await server.delete("/ratings/1");
-    
-            expect(response.status).toBe(401);
+describe("DELETE /ratings/:coasterId", () => {
+    it ("should respond with status 401 when no token is given", async () => {
+        const response = await server.delete("/ratings/1");
+
+        expect(response.status).toBe(401);
+    });
+
+    it ("should respond with status 401 when invalid token", async () => {
+        const invalidToken = faker.random.alphaNumeric(5);
+
+        const response = await server.delete("/ratings/1").set("Authorization", invalidToken);
+
+        expect(response.status).toBe(401);
+    });
+
+    it ("should respond with status 401 when no user found", async () => {
+        const accessToken = faker.random.alphaNumeric(30);
+
+        const response = await server.delete("/ratings/1").set("Authorization", `Bearer ${accessToken}`);
+
+        expect(response.status).toBe(401);
+    });
+
+    describe("when token is valid", () => {
+        it("should respond with status 400 when invalid CoasterId format", async () => {
+            const createdUser = await createUser();
+            const invalidParam = faker.random.alpha(3);
+
+            const response = await server.delete(`/ratings/${invalidParam}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
+
+            expect(response.status).toBe(400);
         });
-    
-        it ("should respond with status 401 when invalid token", async () => {
-            const invalidToken = faker.random.alphaNumeric(5);
-    
-            const response = await server.delete("/ratings/1").set("Authorization", invalidToken);
-    
-            expect(response.status).toBe(401);
+
+        it("should respond with status 404 when CoasterId not found", async () => {
+            const createdUser = await createUser();
+            const coasterObj = await createCoaster();
+
+            const response = await server.delete(`/ratings/${coasterObj.id+1}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
+
+            expect(response.status).toBe(404);
         });
-    
-        it ("should respond with status 401 when no user found", async () => {
-            const accessToken = faker.random.alphaNumeric(30);
-    
-            const response = await server.delete("/ratings/1").set("Authorization", `Bearer ${accessToken}`);
-    
-            expect(response.status).toBe(401);
-        });
-    
-        describe("when token is valid", () => {
-            it("should respond with status 400 when invalid CoasterId format", async () => {
-                const createdUser = await createUser();
-                const invalidParam = faker.random.alpha(3);
-    
-                const response = await server.delete(`/ratings/${invalidParam}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
-    
-                expect(response.status).toBe(400);
-            });
-    
-            it("should respond with status 404 when CoasterId not found", async () => {
+
+        describe("when coasterId is valid", () => {    
+            it("should respond with status 200 and remove rating from db", async () => {
                 const createdUser = await createUser();
                 const coasterObj = await createCoaster();
+
+                await createOneRatingWithGrade(30, createdUser.id, coasterObj.id);
     
-                const response = await server.delete(`/ratings/${coasterObj.id+1}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
+                const response = await server.delete(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
     
-                expect(response.status).toBe(404);
-            });
-    
-            describe("when coasterId is valid", () => {    
-                it("should respond with status 200 and remove rating from db", async () => {
-                    const createdUser = await createUser();
-                    const coasterObj = await createCoaster();
-    
-                    await prisma.ratings.create({
-                        data: {
-                            userId: createdUser.id,
-                            coasterId: coasterObj.id,
-                            grade: 30
-                        }
-                    });
-        
-                    const response = await server.delete(`/ratings/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
-        
-                    const verifyEntry = await prisma.ratings.count({
-                        where: {
-                            userId: createdUser.id,
-                            coasterId: coasterObj.id,
-                        }
-                    });
-                    expect(response.status).toBe(200);
-                    expect(verifyEntry).toBe(0);
+                const verifyEntry = await prisma.ratings.count({
+                    where: {
+                        userId: createdUser.id,
+                        coasterId: coasterObj.id,
+                    }
                 });
+                expect(response.status).toBe(200);
+                expect(verifyEntry).toBe(0);
             });
         });
     });
