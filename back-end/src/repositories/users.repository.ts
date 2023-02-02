@@ -12,6 +12,18 @@ async function getUserByToken(accessToken: string) {
     });
 }
 
+async function getUserPublicInfoById(userId: number) {
+    return await prisma.users.findUnique({
+        where: {
+            id: userId,
+        },
+        select: {
+            photoURL: true,
+            displayName: true,
+        }
+    });
+}
+
 async function upsertUser(user: NewUserParams) {
     const createdUser = await prisma.users.upsert({
         where: {
@@ -25,5 +37,6 @@ async function upsertUser(user: NewUserParams) {
 
 export const usersRepository = {
     getUserByToken,
+    getUserPublicInfoById,
     upsertUser,
 };
