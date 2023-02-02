@@ -1,7 +1,26 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-    height: calc(100vh - 420px);
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+    ${props => `color: var(${props.themeCode.title});`}
+
+    & > h1 {
+        font-weight: 400;
+        font-size: 16px;
+        margin-bottom: 5px;
+
+        b {
+            font-weight: 700;
+        }
+    }
+`
+
+const RankingContainer = styled.div`
+    width: 100%;
+    height: calc(100vh - 440px);
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -61,5 +80,6 @@ const UserContainer = styled.div`
 
 export { 
     Container,
+    RankingContainer,
     UserContainer
 };
