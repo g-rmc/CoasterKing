@@ -49,7 +49,7 @@ export function CoasterPageContent({coaster}) {
                     <span>
                         <StyledEvaluation themeCode={themeCodeObj} icon={"star"}>
                             <AiFillStar />
-                            <h1>{coaster._avg.grade.toFixed(1)}</h1>
+                            <h1>{coaster._avg.grade.toFixed(1)} <b>({coaster._count.ratings})</b></h1>
                         </StyledEvaluation>
                         <StyledEvaluation themeCode={themeCodeObj} icon={"heart"}>
                             <AiFillHeart />

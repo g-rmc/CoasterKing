@@ -8,7 +8,7 @@ async function getCoastersListWithAvgCountInfo() {
 
     for (let i = 0; i < coastersList.length; i++) {
         const coasterRating = await ratingsRepository.getAvgGradeByCoasterId(coastersList[i].id);
-        fullCoasterInfo.push({ ...coastersList[i], _avg: { grade: Math.round(coasterRating._avg.grade) } });
+        fullCoasterInfo.push({ ...coastersList[i], _avg: { grade: coasterRating._avg.grade } });
     }
 
     return fullCoasterInfo;

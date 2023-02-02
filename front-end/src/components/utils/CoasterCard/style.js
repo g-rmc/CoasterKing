@@ -50,6 +50,10 @@ const CoasterInfoContainer = styled.div`
         font-weight: 700;
         font-size: 15px;
         ${props => `color: var(${props.themeCode.text});`}
+        b {
+            font-size: 13px;
+            font-weight: 300;
+        }
     }
 
     h2 {
@@ -62,9 +66,9 @@ const CoasterInfoContainer = styled.div`
         font-weight: 300;
         font-size: 13px;
         ${props => `color: var(${props.themeCode.counterText});`}
-    b {
-        font-weight: 700;
-    }
+        b {
+            font-weight: 700;
+        }
     }
 `
 

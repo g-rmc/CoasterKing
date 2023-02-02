@@ -61,7 +61,8 @@ describe("GET /coasters", () => {
                     _count: {
                         select: {
                             riders: true,
-                            favorites: true
+                            favorites: true,
+                            ratings: true,
                         },
                     },
                 }
@@ -76,7 +77,7 @@ describe("GET /coasters", () => {
                         grade: true
                     }
                 });
-                fullCoasterInfo.push({ ...coastersList[i], _avg: { grade: Math.round(coasterRatings._avg.grade/10) } });
+                fullCoasterInfo.push({ ...coastersList[i], _avg: { grade: coasterRatings._avg.grade/10 } });
             }
             
             const response = await server.get("/coasters").set("Authorization", `Bearer ${createdUser.accessToken}`);
