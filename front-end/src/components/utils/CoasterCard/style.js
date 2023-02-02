@@ -50,6 +50,13 @@ const CoasterInfoContainer = styled.div`
         font-weight: 700;
         font-size: 15px;
         ${props => `color: var(${props.themeCode.text});`}
+        b {
+            font-size: 13px;
+            font-weight: 300;
+            @media screen and (max-width: 500px) {
+                display: none;
+            }
+        }
     }
 
     h2 {
@@ -62,9 +69,9 @@ const CoasterInfoContainer = styled.div`
         font-weight: 300;
         font-size: 13px;
         ${props => `color: var(${props.themeCode.counterText});`}
-    b {
-        font-weight: 700;
-    }
+        b {
+            font-weight: 700;
+        }
     }
 `
 
@@ -84,9 +91,10 @@ const StyledEvaluation = styled.div`
 
     svg {
         margin-right: 5px;
+        font-size: 15px;
         ${props => {
-            if (props.icon === "star") return "color: #FFD42E;"
-            return "color: #FF2121;"
+            if (props.icon === "star") return "color: #faaf00;"
+            return "color: #d30000;"
         }}
     }
 `
@@ -103,6 +111,23 @@ const StyledCheckBox = styled.div`
     ${props => `background: var(${props.themeCode.background});`}
     border: 1px solid ${props => `var(${props.themeCode.title})`};
     border-radius: 5px;
+
+    cursor: pointer;
+    :hover {
+        filter: brightness(0.6);
+    }
+`
+
+const StyledHeartCheck = styled.div`
+    height: 30px;
+    min-width: 30px;
+    width: 30px;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: #d30000;
+
+    border-radius: 50%;
 
     cursor: pointer;
     :hover {
@@ -127,5 +152,10 @@ function StyledStarRating ({grade, handleEvent}) {
 }
 
 export {
-    Container, CoasterInfoContainer, StyledEvaluation, StyledCheckBox, StyledStarRating
+    Container,
+    CoasterInfoContainer,
+    StyledEvaluation,
+    StyledCheckBox,
+    StyledHeartCheck,
+    StyledStarRating
 }

@@ -23,6 +23,16 @@ const CoastersList = styled.div`
     padding: 0 20px 40px 20px;
     flex-direction: column;
     overflow-y: scroll;
+
+    p {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 30px;
+        ${props => `color: var(${props.themeCode.title});`}
+    }
 `
 
 export {

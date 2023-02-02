@@ -3,6 +3,24 @@ import { connectDb } from "../config/database";
 
 const prisma = connectDb();
 
+async function getFavoritesByUserAndCoasterId(userId: number, coasterId: number) {
+    return await prisma.favorites.findFirst({
+        where: {
+            userId,
+            coasterId
+        }
+    });
+}
+
+async function createFavoritesByUserAndCoasterId(userId: number, coasterId: number) {
+    return await prisma.favorites.create({
+        data: {
+            userId,
+            coasterId
+        }
+    });
+}
+
 async function deleteFavoritesByCoasterAndUserId(userId: number, coasterId: number) {
     return await prisma.favorites.deleteMany({
         where: { 
@@ -13,5 +31,7 @@ async function deleteFavoritesByCoasterAndUserId(userId: number, coasterId: numb
 }
 
 export const favoritesRepository = {
+    getFavoritesByUserAndCoasterId,
+    createFavoritesByUserAndCoasterId,
     deleteFavoritesByCoasterAndUserId
 };

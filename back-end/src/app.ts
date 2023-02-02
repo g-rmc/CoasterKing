@@ -5,6 +5,7 @@ import userRouter from "./modules/users/users.router";
 import coasterRouter from "./modules/coasters/coasters.router";
 import ridersRouter from "./modules/riders/riders.router";
 import ratingsRouter from "./modules/ratings/ratings.router";
+import favoritesRouter from "./modules/favorites/favorites.router";
 
 const app = express();
 app
@@ -14,6 +15,7 @@ app
     .use("/users", userRouter)
     .use("/coasters", coasterRouter)
     .use("/riders", ridersRouter)
-    .use("/ratings", ratingsRouter);
+    .use("/ratings", ratingsRouter)
+    .use("/favorites", favoritesRouter);
 
 export default app;

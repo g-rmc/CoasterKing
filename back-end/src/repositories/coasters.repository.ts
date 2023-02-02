@@ -10,6 +10,7 @@ async function getCoastersWithCount() {
                 select: {
                     riders: true,
                     favorites: true,
+                    ratings: true,
                 },
             },
         },

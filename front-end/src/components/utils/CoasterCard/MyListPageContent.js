@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 
 import { QueryContext, ThemeContext, UserContext } from "../../../contexts";
-import { CoasterInfoContainer, StyledCheckBox, StyledStarRating } from "./style";
+import { CoasterInfoContainer, StyledHeartCheck, StyledStarRating } from "./style";
 
 
 export function MyListPageContent({coaster}) {
@@ -10,12 +11,15 @@ export function MyListPageContent({coaster}) {
     const { themeCodeObj } = useContext(ThemeContext);
     const { coasterKingAPI } = useContext(QueryContext);
     const [ grade, setGrade ] = useState(null);
+    const [ favorite, setFavorite ] = useState(false);
 
     useEffect(() => {
         async function loadAPI() {
             try {
                 const { grade } = (await coasterKingAPI.getRatingByCoaster(config, coaster.id)).data;
+                const { favoriteStatus } = (await coasterKingAPI.getFavoriteStatusByCoaster(config, coaster.id)).data;
                 setGrade(grade);
+                setFavorite(favoriteStatus);
             } catch (error) {
                 console.log(error.message);
             }
@@ -23,7 +27,7 @@ export function MyListPageContent({coaster}) {
         loadAPI();
     }, [loading, coasterKingAPI, coaster.id, config]);
 
-    async function handleEvent(_event, newGrade) {
+    async function handleRatingEvent(_event, newGrade) {
         setLoading(true);
         try {
             if(!newGrade) {
@@ -39,6 +43,20 @@ export function MyListPageContent({coaster}) {
         setLoading(false);
     };
 
+    async function handleChangeFavoriteStatus() {
+        setLoading(true);
+        try {
+            if(favorite) {
+                await coasterKingAPI.deleteFavoriteStatusByCoaster(config, coaster.id);
+            } else {
+                await coasterKingAPI.postFavoriteStatusByCoaster(config, coaster.id);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+        setLoading(false);
+    }
+
     return (
         <>
             <CoasterInfoContainer themeCode={themeCodeObj}>
@@ -46,16 +64,21 @@ export function MyListPageContent({coaster}) {
                 <div>
                     <span>
                         <h2>{coaster.parkName}</h2>
-                        <StyledStarRating grade={grade} handleEvent={handleEvent} />
+                        <StyledStarRating grade={grade} handleEvent={handleRatingEvent} />
                     </span>
                     <span>
 
                     </span>
                 </div>
             </CoasterInfoContainer>
-            <StyledCheckBox themeCode={themeCodeObj}>
-                
-            </StyledCheckBox>
+            <StyledHeartCheck onClick={handleChangeFavoriteStatus}>
+                {
+                    favorite?
+                    <AiFillHeart />
+                    :
+                    <AiOutlineHeart />
+                }
+            </StyledHeartCheck>
         </>
     )
 }

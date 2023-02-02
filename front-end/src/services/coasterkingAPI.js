@@ -57,6 +57,21 @@ async function deleteRatingByCoaster(config, coasterId) {
     return promise;
 }
 
+async function getFavoriteStatusByCoaster(config, coasterId) {
+    const promise = axios.get(`${baseURL}/favorites/${coasterId}`, config);
+    return promise;
+}
+
+async function postFavoriteStatusByCoaster(config, coasterId) {
+    const promise = axios.post(`${baseURL}/favorites/${coasterId}`, {}, config);
+    return promise;
+}
+
+async function deleteFavoriteStatusByCoaster(config, coasterId) {
+    const promise = axios.delete(`${baseURL}/favorites/${coasterId}`, config);
+    return promise;
+}
+
 export const coasterKingAPI = { 
     createUpdateUser, 
     getUserByToken, 
@@ -69,4 +84,7 @@ export const coasterKingAPI = {
     getRatingByCoaster,
     postRatingByCoaster,
     deleteRatingByCoaster,
+    getFavoriteStatusByCoaster,
+    postFavoriteStatusByCoaster,
+    deleteFavoriteStatusByCoaster,
 }
