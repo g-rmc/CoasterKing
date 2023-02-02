@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ThemeContext } from "../../../contexts/ThemeContext";
+import { ThemeContext } from "../../../contexts";
 import { Container, MyListButton, MainButton, CoastersButton } from "./style";
 
 import lightModeLogo from "../../../assets/CoasterKing_LightMode.png";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext } from "react";
-import { ThemeContext } from "../../../contexts/ThemeContext";
+import { ThemeContext } from "../../../contexts";
 import { BsSun, BsMoon } from "react-icons/bs";
 
 import { Container } from "./style";

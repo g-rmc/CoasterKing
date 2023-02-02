@@ -27,6 +27,11 @@ async function getMyCoastersCount(config) {
     return promise;
 }
 
+async function getUsersRanking(config) {
+    const promise = axios.get(`${baseURL}/riders/ranking`, config);
+    return promise;
+}
+
 async function getRideStatusByCoaster(config, coasterId) {
     const promise = axios.get(`${baseURL}/riders/${coasterId}`, config);
     return promise;
@@ -78,6 +83,7 @@ export const coasterKingAPI = {
     getCoasters, 
     getUserCoasters,
     getMyCoastersCount,
+    getUsersRanking,
     getRideStatusByCoaster,
     postRideStatusByCoaster,
     deleteRideStatusByCoaster,
