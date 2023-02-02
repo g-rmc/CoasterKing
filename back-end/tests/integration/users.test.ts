@@ -13,6 +13,10 @@ beforeEach(async () => {
     await cleanDb(prisma);
 });
 
+afterAll(async () => {
+    await prisma?.$disconnect();
+});
+
 describe("GET /users", () => {
     it ("should respond with status 401 when no token is given", async () => {
         const response = await server.get("/coasters");

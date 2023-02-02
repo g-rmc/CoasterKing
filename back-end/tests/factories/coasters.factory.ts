@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { coasters } from "@prisma/client";
-import { prisma } from "../../src/config/database";
+import { connectDb } from "../../src/config/database";
+
+const prisma = connectDb();
 
 const coaster: Omit<coasters, "id"> = {
     name: faker.random.words(3),

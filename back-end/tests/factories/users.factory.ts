@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { users } from "@prisma/client";
-import { prisma } from "../../src/config/database";
+import { connectDb } from "../../src/config/database";
+
+const prisma = connectDb();
 
 export const user: Omit<users, "id"> = {
     email: faker.internet.email(),
