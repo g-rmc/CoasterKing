@@ -35,6 +35,9 @@ export function CoastersLists() {
     }, [coasterKingAPI, setAllCoasters, setUserCoasters, setLoading, config, location.pathname]);
     
     function switchRenderedCoasterList() {
+        if (location.pathname === "/mylist" && !allCoasters) {
+            return <p>Parece que você ainda não selecionou nenhum montanha-russa :(</p>;
+        };
         if (location.pathname === "/coasters" && allCoasters) {
             return allCoasters.map((coaster, index) => <CoasterCard key={index} coaster={coaster} />);
         };
@@ -54,7 +57,7 @@ export function CoastersLists() {
                     "Avalie sua experiência"
                 }
             </Header>
-            <CoastersList>
+            <CoastersList themeCode={themeCodeObj}>
                 {switchRenderedCoasterList()}
             </CoastersList>
             <BottomMenu />
