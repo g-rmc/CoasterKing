@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 
 import { UserContext, ThemeContext, QueryContext } from "../../../contexts";
-import { TopBar, BottomMenu } from "../../utils";
+import { TopBar, BottomMenu, Ranking } from "../../utils";
 import { Container, Header, StyledCounter } from "./style";
 
 
@@ -35,8 +35,7 @@ export function Main() {
                 <StyledCounter darkMode={darkMode} coasterCount={coasterCount}/>
                 <h1>montanhas-russas!</h1>
             </Header>
-            
-            <h1 style={darkMode? {color:"white"} : {color:"black"}}>Em breve...</h1>
+            <Ranking />
             <BottomMenu />
         </Container>
     )
