@@ -23,7 +23,7 @@ export function CoasterPageContent({coaster}) {
         loadAPI();
     });
 
-    async function handleChangeStatus() {
+    async function handleChangeRidedStatus() {
         setLoading(true);
         try {
             if(ridedCoaster) {
@@ -58,7 +58,7 @@ export function CoasterPageContent({coaster}) {
                     </span>
                 </div>
             </CoasterInfoContainer>
-            <StyledCheckBox themeCode={themeCodeObj} onClick={handleChangeStatus}>
+            <StyledCheckBox themeCode={themeCodeObj} onClick={handleChangeRidedStatus}>
                 { ridedCoaster? <AiOutlineCheck /> : <></>}
             </StyledCheckBox>
         </>
