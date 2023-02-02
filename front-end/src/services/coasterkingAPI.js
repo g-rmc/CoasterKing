@@ -48,7 +48,7 @@ async function getRatingByCoaster(config, coasterId) {
 }
 
 async function postRatingByCoaster(config, coasterId, grade) {
-    const promise = axios.post(`${baseURL}/ratings/${coasterId}`, { grade: grade*10 }, config);
+    const promise = axios.post(`${baseURL}/ratings/${coasterId}`, { grade }, config);
     return promise;
 }
 

@@ -3,7 +3,7 @@ import { prisma } from "../../src/config/database";
 
 export async function createRatings(number = 1, userId: number, coasterId: number) {
     while(number > 0) {
-        const grade = Number(faker.random.numeric(2));
+        const grade = +faker.random.numeric(1);
         await prisma.ratings.create({
             data: {
                 userId,

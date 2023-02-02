@@ -15,7 +15,7 @@ export function MyListPageContent({coaster}) {
         async function loadAPI() {
             try {
                 const { grade } = (await coasterKingAPI.getRatingByCoaster(config, coaster.id)).data;
-                setGrade(grade/10);
+                setGrade(grade);
             } catch (error) {
                 console.log(error.message);
             }

@@ -1,4 +1,4 @@
-import { ridersRepository } from "../../repositories";
+import { favoritesRepository, ratingsRepository, ridersRepository } from "../../repositories";
 import { coastersService } from "../coasters/coasters.service";
 
 async function getCoastersNumberByUser(userId: number) {
@@ -22,6 +22,8 @@ async function postRiderEntry(userId: number, coasterId: number) {
 async function deleteRiderEntry(userId: number, coasterId: number) {
     if (!await coastersService.verifyExistingCoasterId(coasterId)) throw new Error("coasterId not found");
     if (!await ridersRepository.getRiderEntryByUserAndCoasterId(userId, coasterId)) throw new Error("rider entry not found");
+    await favoritesRepository.deleteFavoritesByCoasterAndUserId(userId, coasterId);
+    await ratingsRepository.deleteRatingByCoasterAndUserId(coasterId, userId);
     await ridersRepository.deleteRiderEntryByUserAndCoasterId(userId, coasterId);
 }
 
