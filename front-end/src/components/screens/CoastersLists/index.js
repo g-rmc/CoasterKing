@@ -35,14 +35,15 @@ export function CoastersLists() {
     }, [coasterKingAPI, setAllCoasters, setUserCoasters, setLoading, config, location.pathname]);
     
     function switchRenderedCoasterList() {
-        if (location.pathname === "/mylist" && !allCoasters) {
+        console.log()
+        if (location.pathname === "/mylist" && !userCoasters) {
             return <p>Parece que você ainda não selecionou nenhum montanha-russa :(</p>;
-        };
-        if (location.pathname === "/coasters" && allCoasters) {
-            return allCoasters.map((coaster, index) => <CoasterCard key={index} coaster={coaster} />);
         };
         if (location.pathname === "/mylist" && userCoasters) {
             return userCoasters.map((coaster, index) => <CoasterCard key={index} coaster={coaster} />);
+        };
+        if (location.pathname === "/coasters" && allCoasters) {
+            return allCoasters.map((coaster, index) => <CoasterCard key={index} coaster={coaster} />);
         };
     }
 

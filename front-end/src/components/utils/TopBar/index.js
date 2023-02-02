@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ThemeContext } from "../../../contexts/ThemeContext";
-import { UserContext } from "../../../contexts/UserContext";
+import { ThemeContext, UserContext } from "../../../contexts";
 import { Container } from "./style";
 
 export function TopBar() {
@@ -32,7 +31,7 @@ export function TopBar() {
             <img src={user.photoURL} alt='profile' onClick={handleLogout} onError={({ currentTarget }) => {
             currentTarget.onerror = null; 
             currentTarget.src=`https://ui-avatars.com/api/?background=random&name=${stringDisplayName()}`;
-          }}/>
+            }}/>
             <div>
                 <h1>Coaster</h1>
                 <h2>KING</h2>

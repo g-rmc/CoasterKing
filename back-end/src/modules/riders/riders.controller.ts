@@ -13,6 +13,15 @@ async function getRidersMe(_req: Request, res: Response) {
     }
 }
 
+async function getRidersRanking(_req: Request, res: Response) {
+    try {
+        const ranking = await ridersService.getRanking();
+        res.send(ranking);
+    } catch (error) {
+        res.sendStatus(400);
+    }
+}
+
 async function getRider(req: Request, res: Response) {
     const userId = +res.locals.userId;
     const coasterId = +req.params.coasterId;
@@ -53,5 +62,9 @@ async function deleteRider(req: Request, res: Response) {
 }
 
 export const ridersController = {
-    getRidersMe, getRider, postRider, deleteRider
+    getRidersMe,
+    getRidersRanking,
+    getRider,
+    postRider,
+    deleteRider
 };

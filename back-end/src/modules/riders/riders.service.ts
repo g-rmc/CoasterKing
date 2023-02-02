@@ -1,4 +1,4 @@
-import { favoritesRepository, ratingsRepository, ridersRepository } from "../../repositories";
+import { favoritesRepository, ratingsRepository, ridersRepository, usersRepository } from "../../repositories";
 import { coastersService } from "../coasters/coasters.service";
 
 async function verifyCoasterId(coasterId: number) {
@@ -8,6 +8,26 @@ async function verifyCoasterId(coasterId: number) {
 async function getCoastersNumberByUser(userId: number) {
     const coastersCount = await ridersRepository.getCoastersCountByUserId(userId);
     return { userCoastersCount: coastersCount };
+}
+
+async function getRanking() {
+    const ridersRanking = await ridersRepository.getRidersGoupByUserId();
+
+    type Ranking = { userId: number, ranking: number, photoURL: string, displayName: string, credits: number }
+    const usersRanking: Ranking[] = [];
+
+    for (let i = 0; i < ridersRanking.length; i++) {
+        const userData = await usersRepository.getUserPublicInfoById(ridersRanking[i].userId);
+        usersRanking.push({
+            userId: ridersRanking[i].userId,
+            ranking: i+1,
+            photoURL: userData.photoURL,
+            displayName: userData.displayName.split(" ")[0],
+            credits: ridersRanking[i]._count.coasterId
+        });
+    }
+
+    return usersRanking;
 }
 
 async function getRidedOrNot(userId: number, coasterId: number) {
@@ -33,6 +53,7 @@ async function deleteRiderEntry(userId: number, coasterId: number) {
 
 export const ridersService = {
     getCoastersNumberByUser,
+    getRanking,
     getRidedOrNot,
     postRiderEntry,
     deleteRiderEntry

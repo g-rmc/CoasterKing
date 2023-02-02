@@ -9,6 +9,20 @@ async function getCoastersCountByUserId(userId: number) {
     });
 }
 
+async function getRidersGoupByUserId() {
+    return await prisma.riders.groupBy({
+        by: ["userId"],
+        _count: {
+            coasterId: true,
+        },
+        orderBy: {
+            _count: {
+                coasterId: "desc",
+            }
+        }
+    });
+}
+
 async function getRiderEntryByUserAndCoasterId(userId: number, coasterId: number) {
     return await prisma.riders.findFirst({
         where: {
@@ -38,6 +52,7 @@ async function deleteRiderEntryByUserAndCoasterId(userId: number, coasterId: num
 
 export const ridersRepository = {
     getCoastersCountByUserId,
+    getRidersGoupByUserId,
     getRiderEntryByUserAndCoasterId,
     createRiderEntryByUserAndCoasterId,
     deleteRiderEntryByUserAndCoasterId

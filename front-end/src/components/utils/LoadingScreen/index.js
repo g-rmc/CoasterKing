@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
-import { UserContext } from "../../../contexts/UserContext";
-import { ThemeContext } from "../../../contexts/ThemeContext";
+import { UserContext,ThemeContext } from "../../../contexts";
 import { Container } from "./style";
 
 import lightModeGif from "../../../assets/lightmode.gif";
