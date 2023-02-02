@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import app from "../../src/app";
 import { connectDb } from "../../src/config/database";
 import { cleanDb } from "../helpers";
-import { createUser, createCoaster, createRiders } from "../factories";
+import { createUser, createCoaster, createRiders, createFavorites, createRatings } from "../factories";
 
 const server = supertest(app);
 const prisma = connectDb();
@@ -267,15 +267,31 @@ describe("DELETE /riders/:coasterId", () => {
         });
 
         describe("when coasterId is valid", () => {
-            it("should respond with status 200 and clear rider entry for userId and coasterId", async () => {
+            it("should respond with status 200 and clear rider, rating and favorite entry for userId and coasterId", async () => {
                 const createdUser = await createUser();
                 const coasterObj = await createCoaster();
 
                 await createRiders(1, createdUser.id, coasterObj.id);
+                await createRatings(1, createdUser.id, coasterObj.id);
+                await createFavorites(1, createdUser.id, coasterObj.id);
     
                 const response = await server.delete(`/riders/${coasterObj.id}`).set("Authorization", `Bearer ${createdUser.accessToken}`);
 
-                const verifyEntry = await prisma.riders.count({
+                const verifyEntry1 = await prisma.riders.count({
+                    where: {
+                        userId: createdUser.id,
+                        coasterId: coasterObj.id,
+                    }
+                });
+
+                const verifyEntry2 = await prisma.ratings.count({
+                    where: {
+                        userId: createdUser.id,
+                        coasterId: coasterObj.id,
+                    }
+                });
+
+                const verifyEntry3 = await prisma.favorites.count({
                     where: {
                         userId: createdUser.id,
                         coasterId: coasterObj.id,
@@ -283,7 +299,9 @@ describe("DELETE /riders/:coasterId", () => {
                 });
     
                 expect(response.status).toBe(200);
-                expect(verifyEntry).toBe(0);
+                expect(verifyEntry1).toBe(0);
+                expect(verifyEntry2).toBe(0);
+                expect(verifyEntry3).toBe(0);
             });
         });
     });
