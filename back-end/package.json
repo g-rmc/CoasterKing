@@ -4,7 +4,8 @@
   "description": "",
   "main": "server",
   "scripts": {
-    "start": "node ./src/server",
+    "start": "npm run dev:migration:run && npm run build && node dist/src/server.js",
+    "build": "tsc",
     "lint": "eslint .",
     "dev": "NODE_ENV=development nodemon ./src/server.ts",
     "dev:load-envs": "dotenv -e .env.development",
