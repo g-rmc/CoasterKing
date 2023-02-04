@@ -16,7 +16,7 @@ services:
     ports:
       - 2345:5432
     env_file:
-      - ./back-end/.env.development
+      - ./back-end/.env.production
     volumes:
       - volume_banco:/var/lib/postgresql/data
 
@@ -26,7 +26,7 @@ services:
     ports:
       - 4000:4000
     env_file:
-      - ./back-end/.env.development
+      - ./back-end/.env.production
     volumes:
       - ./back-end:/usr/src
       - /usr/src/node_modules
