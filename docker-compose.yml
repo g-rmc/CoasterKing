@@ -3,6 +3,8 @@ services:
   app_react:
     build: ./front-end
     container_name: app_react
+    env_file:
+      - ./front-end/.env
     volumes:
       - build_react:/var/www/html
     depends_on:
