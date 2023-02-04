@@ -4,7 +4,7 @@
   "description": "",
   "main": "server",
   "scripts": {
-    "start": "npm run dev:migration:run && tsc && node dist/index.js",
+    "start": "npm run dev:migration:run && npm run build && node dist/src/server.js",
     "build": "tsc",
     "lint": "eslint .",
     "dev": "NODE_ENV=development nodemon ./src/server.ts",
