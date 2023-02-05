@@ -38,6 +38,7 @@ function UserContextProvider({ children }) {
             setUser({...APIuserObj, userId});
             window.localStorage.setItem("CoasterKING_access", JSON.stringify({token: result.user.accessToken}));
         } catch (error) {
+            console.log(error);
             alert('Erro no login com Google, tente novamente!');
         };
     };
