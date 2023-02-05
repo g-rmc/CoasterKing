@@ -2,7 +2,12 @@ import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-function createUpdateUser (userObj){
+function checkAPIstatus () {
+    const promise = axios.get(`${baseURL}/status`);
+    return promise;
+}
+
+function createUpdateUser (userObj) {
     const promise = axios.post(`${baseURL}/users`, userObj);
     return promise;
 }
@@ -78,6 +83,7 @@ async function deleteFavoriteStatusByCoaster(config, coasterId) {
 }
 
 export const coasterKingAPI = { 
+    checkAPIstatus,
     createUpdateUser, 
     getUserByToken, 
     getCoasters, 
