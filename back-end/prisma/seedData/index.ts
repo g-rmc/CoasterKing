@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 
 export const userData = {
     email: faker.internet.email(),
-    displayName: faker.name.fullName(),
+    displayName: "Bot de Testes",
     photoURL: faker.image.imageUrl(),
     accessToken: faker.lorem.word(),
     uid: faker.lorem.word(),
@@ -99,4 +99,4 @@ export const coastersData = [
         image: "https://www.adibra.com.br/Content/upload/photos/1440/playfamiliyout2019fmoraes4835.jpg",
         rcdbId: "2476",
     },
-]
+];
