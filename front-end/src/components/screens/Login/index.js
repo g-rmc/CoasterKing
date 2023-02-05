@@ -32,7 +32,7 @@ export function Login () {
             }
         }
         loadAPI();
-    });
+    }, [coasterKingAPI, setConfig, setLoading, setUser, navigate]);
 
     useEffect(() => {
         if(user.id) navigate("/main");
