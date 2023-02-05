@@ -5,16 +5,16 @@ import { userData, coastersData } from "./seedData";
 const prisma = new PrismaClient();
 
 async function main() {
-    await cleanDb();
+    //await cleanDb();
 
-    const userObj = await createUser();
-    console.log(userObj);
+    //const userObj = await createUser();
+    //console.log(userObj);
     const coastersArr = await createCoasters();
     console.log(coastersArr);
 
-    await createRiders(userObj, coastersArr);
-    await createFavorites(userObj, coastersArr);
-    await createRatings(userObj, coastersArr);
+    //await createRiders(userObj, coastersArr);
+    //await createFavorites(userObj, coastersArr);
+    //await createRatings(userObj, coastersArr);
 }
 
 async function cleanDb() {
