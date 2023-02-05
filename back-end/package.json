@@ -12,7 +12,7 @@
     "dev:migration:generate": "npm run dev:load-envs prisma generate",
     "dev:migration:run": "npm run dev:load-envs prisma migrate dev",
     "dev:seed": "npm run dev:load-envs prisma db seed",
-    "test": "npm run test:load-envs npx jest",
+    "test": "dotenv -e .env.test -- npx jest --runInBand",
     "test:load-envs": "dotenv -e .env.test",
     "test:migration:generate": "npm run test:load-envs prisma generate",
     "test:migration:run": "npm run test:load-envs prisma migrate dev",
