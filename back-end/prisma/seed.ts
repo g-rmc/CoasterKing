@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { coasters, PrismaClient, users } from "@prisma/client";
 import { userData, coastersData } from "./seedData";
 
@@ -44,8 +45,8 @@ async function createRiders(user: users, coasters: coasters[]) {
                 userId: user.id,
                 coasterId: coaster.id,
             }
-        })
-    })
+        });
+    });
 }
 
 async function createFavorites(user: users, coasters: coasters[]) {
@@ -56,7 +57,7 @@ async function createFavorites(user: users, coasters: coasters[]) {
                 userId: user.id,
                 coasterId: coasters[i].id,
             }
-        })
+        });
     }
 }
 
@@ -68,15 +69,15 @@ async function createRatings(user: users, coasters: coasters[]) {
                 coasterId: coaster.id,
                 grade: 40,
             }
-        })
-    })
+        });
+    });
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+    .catch((e) => {
+        console.error(e);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
