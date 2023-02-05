@@ -34,10 +34,13 @@ function UserContextProvider({ children }) {
                 photoURL: result.user.photoURL,
                 uid: result.user.uid,
             }
+            const status = await coasterKingAPI.checkAPIstatus();
+            console.log(status);
             const { userId } = await coasterKingAPI.createUpdateUser(APIuserObj);
             setUser({...APIuserObj, userId});
             window.localStorage.setItem("CoasterKING_access", JSON.stringify({token: result.user.accessToken}));
         } catch (error) {
+            console.log(error);
             alert('Erro no login com Google, tente novamente!');
         };
     };
