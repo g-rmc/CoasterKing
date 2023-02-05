@@ -8,7 +8,6 @@ async function main() {
     //await cleanDb();
 
     //const userObj = await createUser();
-    //console.log(userObj);
     const coastersArr = await createCoasters();
     console.log(coastersArr);
 
