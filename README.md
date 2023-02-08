@@ -1,6 +1,6 @@
 # CoasterKing
 
-![Preview-Screens](https://github.com/g-rmc/CoasterKing/assets/CoasterKing.gif)
+![Preview-Screens](https://github.com/g-rmc/CoasterKing/blob/main/assets/CoasterKing.gif)
 
 If you want to take a look at the app, please click [here](http://54.162.101.0/) [pt-br].
 
