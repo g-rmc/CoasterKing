@@ -6,9 +6,7 @@ If you want to take a look at the app, please click [here](http://54.162.101.0/)
 
 ## About this Project
 
-The **CoasterKing** is a app for those who love theme parks and want a better way to register their roller-coaster rides than their memories or written in note blocks. It is designed to have a easy interface to register user's credits
-
-O app tem a função de auxiliar pessoas que gostam de parques a contar e avaliar suas visitas através de montanhas-russas que ela já visitou. Além disso, poder se comparar com outros usuários no ranking geral de usuários.
+The **CoasterKing** is an app for those who love theme parks and want a better way to register their roller-coaster rides than their memories or written in note blocks. It is designed to have an easy interface to register user credits.
 
 ## Features
 
@@ -41,13 +39,15 @@ O app tem a função de auxiliar pessoas que gostam de parques a contar e avalia
 ## Tecnologies
 
 - JavaScript
-- React.js
-- Styled Components
-- Node.js
-- TypeScript
-- Prisma ORM
-- PostgreSQL
-- Jest
+- Front-end
+  - React.js
+  - Styled Components
+- Back-end
+  - Node.js
+  - TypeScript
+  - Prisma ORM
+  - PostgreSQL
+  - Jest
 - Docker
 - AWS
 
