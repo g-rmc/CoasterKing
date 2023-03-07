@@ -65,7 +65,7 @@ This project works with [Docker Container](https://www.docker.com/resources/what
 - Cloning the Repository:
 
 ```bash
-git clone https://github.com/g-rmc/CoasterKing
+git clone https://github.com/g-rmc/CoasterKing.git
 ```
 
 - Create ```.env``` _(front-end)_ and ```.env.production``` _(back-end)_ based on ```.env.example```
