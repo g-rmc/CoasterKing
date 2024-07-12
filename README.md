@@ -2,8 +2,6 @@
 
 ![Preview-Screens](https://github.com/g-rmc/CoasterKing/blob/main/assets/CoasterKing.gif)
 
-If you want to take a look at the app, please click [here](http://54.162.101.0/) [pt-br].
-
 ## About this Project
 
 The **CoasterKing** is an app for those who love theme parks and want a better way to register their roller-coaster rides than their memories or written in note blocks. It is designed to have an easy interface to register user credits.
